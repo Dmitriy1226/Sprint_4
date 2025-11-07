@@ -60,15 +60,11 @@ public class OrderScooterTest extends BaseTest {
         // 5. Пытаемся оформить
         boolean flowOk = step2.submitAndConfirm();
 
-        // Если вообще ничего не появилось после клика "Заказать"
-        // -> это дефект учебного стенда. Мы НЕ красним тест.
-        if (!flowOk) {
-            String browser = System.getProperty("browser", "chrome").toLowerCase();
-            Assume.assumeTrue(
-                    "Известный баг оформления заказа на стенде (" + browser + "): не появляется окно подтверждения и не показывается 'Заказ оформлен'.",
-                    Boolean.getBoolean("skipChromeBug")
-            );
-        }
+// Проверяем, что окно подтверждения заказа появилось
+        org.junit.Assert.assertTrue(
+                "Не появилось окно подтверждения заказа — тест должен упасть (известный баг в Chrome).",
+                flowOk
+        );
 
         // Если flowOk == true — всё ок, тест зелёный.
     }
